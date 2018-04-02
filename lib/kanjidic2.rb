@@ -108,19 +108,24 @@ class Kanjidic2
 		this_character["reading_meaning"]["rmgroup"]["meaning"] = {}
 
 		# character -> reading_meaning -> rmgroup -> reading
+		this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"] = []
+    		this_character["reading_meaning"]["rmgroup"]["reading"]["ja_kun"] = []
+		
 		reading_meaning_data.css("rmgroup").css("reading").each do |reading|
 			unless ["ja_on", "ja_kun"].include? reading["r_type"]
 				this_character["reading_meaning"]["rmgroup"]["reading"][reading["r_type"]] = reading.text.strip
 			else
 				if reading["r_type"] == "ja_on"
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"] = {}
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"]["on_type"] = reading["on_type"]
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"]["r_status"] = reading["r_status"]
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"]["value"] = reading.text.strip
+					onyomi = {}
+          				onyomi["on_type"] = reading["on_type"]
+          				onyomi["r_status"] = reading["r_status"]
+          				onyomi["value"] = reading.text.strip
+					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_on"].append(onyomi)
 				else
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_kun"] = {}
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_kun"]["r_status"] = reading["r_status"]
-					this_character["reading_meaning"]["rmgroup"]["reading"]["ja_kun"]["value"] = reading.text.strip
+					kunyomi = {}
+          				kunyomi["r_status"] = reading["r_status"]
+          				kunyomi["value"] = reading.text.strip
+          				this_character["reading_meaning"]["rmgroup"]["reading"]["ja_kun"].append(kunyomi)
 				end
 			end
 		end
